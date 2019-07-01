@@ -1,15 +1,22 @@
 ## 实现一个简易的 MVVM 双向数据绑定
 
-在手写双向数据绑定之前，
+如果你想了解 MVVM 双向数据绑定，那你之前最好有 Angular.js/React.js/Vue.js 等工具库的使用经验，便于理解。
 
-所谓双向数据绑定，即视图和数据之间，当一方发生变化时，另一方也会随之变化。
+### 一、实现思路
 
-### 实现思路
+要实现一个 mvvm 双向数据绑定，我们需要实现以下几点：
+
+- 实现一个数据监听器 `Observer`，能够对数据对象的所有属性进行监听，当数据变更时能通过发布者通知所有订阅者。
+- 实现一个指令和模板的解析器 `Compile`，能对各个元素节点进行扫描解析，将对应的数据模板替换成对应的数据，并且更新到视图上。
+- 利用订阅者 `Watcher` 连接 `Observer` 和 `Compile`，使得监听数据变更时，视图能变化。视图绑定数据变化时，数据对象也能进行相应的变化。
+- 提供一个 MVVM 函数，支持以上三个能力。
+
+流程示意图：
 
 ![](./mvvm.png)
 
 
-### 具体实现
+### 二、具体实现
 
 #### 1. 实现数据监听 `Observer`
 
@@ -216,4 +223,114 @@ class Compile {
 ```
 
 
-#### 3. 实现依赖收集 `Observer`
+#### 3. 实现依赖收集 `Watcher`
+
+> **依赖收集：**
+>
+> 新增订阅者时，将当前订阅者赋值给一个全局变量，之后触发相关联的数据的 `getter`，`getter` 就能将全局变量中包含的订阅者添加到相关的订阅者列表中。
+
+> **连接 `Observer` 和 `Compile`：**
+>
+> 当 `Compile` 解析指令或数据模板时，发现有效指令或数据模板时，可新增一个订阅者相应的变化，并在回调中做出对应的处理。
+
+**订阅者 watcher.js**
+
+```javascript
+class Watcher {
+    constructor(vm, exp, callback) {
+        this.vm = vm;
+        this.exp = exp;
+        // 存储生成编译结果的函数
+        this.callback = callback;
+        // 存储当前编译结果
+        this.value = this.get();
+    }
+    get() {
+        // 通过触发该数据的getter函数，将watch添加到dep中
+        Dependence.target = this;
+        const value = utils.getVal(this.vm, this.exp);
+        Dependence.target = null;
+        return value;
+    }
+    update() {
+        const newVal = this.get();
+        const oldVal = this.value;
+        if (oldVal !== newVal) {
+            this.value = newVal;
+            this.callback && this.callback(newVal, oldVal)
+        }
+    }
+}
+```
+
+**observer.js 新增**
+
+```javascript
+class Observer {
+    // ...
+    defineReactive(data, key, value) {
+        // 订阅所有变更
+        const dep = new Dependence();
+        Object.defineProperty(data, key, {
+            // ...
+            get: () => {
+                // 利用全局变量新增相关订阅者
+                Dependence.target && dep.addSub(Dependence.target);
+                return value;
+            }
+        });
+    }
+}
+```
+
+
+#### 4. 提供入口构造函数 `MVVM`
+
+mvvm.js
+```javascript
+class MVVM {
+    constructor(options) {
+        this.$data = options.data();
+        // 数据劫持
+        new Observer(this.$data);
+        // 数据代理
+        this.proxyData(this.$data);
+        // 元素存在，则进行挂载
+        if (options.el) {
+            this.mount(options.el);
+        }
+    }
+    /**
+     * 数据代理，方便调用
+     * 可通过修改 vm.test 间接修改 vm.$data.test 的值
+     * @param  {Object} data vm.$data
+     */
+    proxyData(data) {
+        for (let key in data) {
+            Object.defineProperty(this, key, {
+                get() {
+                    return data[key]
+                },
+                set(newValue) {
+                    data[key] = newValue;
+                }
+            })
+        }
+    }
+    /**
+     * 元素挂载，进行初始化
+     * @param  {[type]} el [description]
+     */
+    mount(el) {
+        new Compile(el, this);
+    }
+}
+```
+
+### 三、补充
+
+相关源码地址：[请访问](https://github.com/yiqingfeng/blog-code)
+
+#### 参考阅读
+
+- https://github.com/DMQ/mvvm

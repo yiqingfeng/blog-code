@@ -3,7 +3,6 @@
  */
 class MVVM {
     constructor(options) {
-        // this.el = options.render();
         this.$data = options.data();
         // 数据劫持
         new Observer(this.$data);
@@ -34,7 +33,6 @@ class MVVM {
     /**
      * 元素挂载，进行初始化
      * @param  {[type]} el [description]
-     * @return {[type]}    [description]
      */
     mount(el) {
         new Compile(el, this);
