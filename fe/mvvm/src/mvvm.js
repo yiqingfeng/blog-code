@@ -6,7 +6,7 @@ class MVVM {
         // this.el = options.render();
         this.$data = options.data();
         // 数据劫持
-        new Observer(this, this.$data);
+        new Observer(this.$data);
         // 数据代理
         this.proxyData(this.$data);
         // 元素存在，则进行挂载

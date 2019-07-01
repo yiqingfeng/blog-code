@@ -22,9 +22,8 @@ class Watcher {
 	update() {
 		const newVal = this.get();
 		const oldVal = this.value;
-		console.log(newVal, oldVal)
 		if (oldVal !== newVal) {
-			// this.value = newVal;
+			this.value = newVal;
 			this.callback && this.callback(newVal, oldVal)
 		}
 	}

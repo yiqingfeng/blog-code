@@ -2,8 +2,7 @@
  * @description 数据劫持
  */
 class Observer {
-    constructor(vm, data) {
-    	this.vm = vm;
+    constructor(data) {
         this.observer(data);
     }
     observer(data) {
@@ -24,8 +23,8 @@ class Observer {
     defineReactive(data, key, value) {
     	const dep = new Dependence();
         Object.defineProperty(data, key, {
-            // 不允许之后 define
-            configurable: false,
+            // 可删除
+            configurable: true,
             // 可枚举
             enumerable: true,
             set: (newVal) => {
