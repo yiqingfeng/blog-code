@@ -1,0 +1,19 @@
+{
+    "name": "javascript-realize",
+    "version": "1.0.0",
+    "description": "js 原生方法实现",
+    "main": "index.js",
+    "author": "nimo",
+    "license": "MIT",
+    "private": false,
+    "scripts": {
+        "test": "jest"
+    },
+    "devDependencies": {
+        "jest": "^26.0.1"
+    },
+    "dependencies": {
+        "@babel/core": "^7.9.6",
+        "@babel/preset-env": "^7.9.6"
+    }
+}
