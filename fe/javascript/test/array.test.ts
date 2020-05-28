@@ -10,13 +10,23 @@ import {
 // })
 
 // test('测试', () => {
-//     expect(testConsole(`webyouxuan`)).toEqual({
+//     expect({
+//         name: 'webyouxuan'
+//     }).toEqual({
 //         name: 'webyouxuan'
 //     });
+
 // })
+describe('测试 splice 是否正确', () => {
+    test('测试', () => {
+        expect({
+            name: 'webyouxuan123'
+        }).toEqual({
+            name: 'webyouxuan'
+        });
+    })
 
-// description('测试自实现的方法')
-
-it('测试 splice 是否正确', () => {
-    expect(splice([1, 2, 3, 4, 5], 1, 2, 6, 7, 8)).toEqual([1, 6, 7, 8, 4, 5]);
+    it('测试123', () => {
+        expect(splice([1, 2, 3, 4, 5], 1, 2, 6, 7, 8)).toEqual([1, 6, 7, 8, 4, 5]);
+    })
 })
