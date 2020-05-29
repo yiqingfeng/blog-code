@@ -7,14 +7,14 @@
     "license": "MIT",
     "private": false,
     "scripts": {
-        "init": "tsc --init",
         "test": "jest",
-        "watch": "jest --wactchall"
+        "watch": "jest --watchAll"
     },
     "devDependencies": {
+        "@types/es6-shim": "^0.31.40",
         "@types/jest": "^25.2.3",
         "jest": "^25.5.4",
-        "ts-jest": "^26.0.0",
+        "ts-jest": "^25.5.1",
         "typescript": "^3.9.3"
     },
     "dependencies": {}

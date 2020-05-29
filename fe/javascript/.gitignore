@@ -6,6 +6,7 @@ yarn-error.log*
 selenium-debug.log
 
 # Editor directories and files
+package-lock.json
 .idea
 *.suo
 *.ntvs*
