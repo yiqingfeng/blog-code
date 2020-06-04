@@ -5,6 +5,7 @@ yarn-debug.log*
 yarn-error.log*
 selenium-debug.log
 test-report/
+test-report*
 
 # Editor directories and files
 package-lock.json
