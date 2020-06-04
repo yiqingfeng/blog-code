@@ -94,7 +94,20 @@ module.exports = {
     // projects: undefined,
 
     // Use this configuration option to add custom reporters to Jest
-    // reporters: undefined,
+    reporters: [
+        'default',
+        [
+            './node_modules/jest-html-reporter',
+            {
+                // 输出页面标题
+                pageTitle: 'Test Report',
+                // 插件将会输出的HTML报告的路径。
+                outputPath: 'test-report/report.html',
+                // 为每个失败的测试输出详细的失败消息。
+                includeFailureMsg: true,
+            },
+        ],
+    ],
 
     // Automatically reset mock state between every test
     // resetMocks: false,
@@ -154,7 +167,7 @@ module.exports = {
     ],
 
     // This option allows the use of a custom results processor
-    // testResultsProcessor: undefined,
+    testResultsProcessor: './node_modules/jest-html-reporter',
 
     // This option allows use of a custom test runner
     // testRunner: "jasmine2",
