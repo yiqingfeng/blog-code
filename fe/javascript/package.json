@@ -7,7 +7,7 @@
     "license": "MIT",
     "private": false,
     "scripts": {
-        "ts": "tsc mocks/request.ts",
+        "ts": "tsc tools/index.ts",
         "t": "jest test/promise.test",
         "test": "jest",
         "watch": "jest --watchAll"
