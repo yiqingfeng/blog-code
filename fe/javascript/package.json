@@ -8,7 +8,7 @@
     "private": false,
     "scripts": {
         "ts": "tsc tools/index.ts",
-        "t": "jest test/promise.test",
+        "leetcode": "jest test/leetcode/",
         "test": "jest",
         "watch": "jest --watchAll"
     },
