@@ -6,7 +6,8 @@
  * 结题思路，并查集 （动态连通性，一边查询一边合并）（kruskal 算法）
  */
 class UnionFind {
-    private parent: number[] = [];
+    // 并查集元素的代表元默认指向自身
+    private parent: number[] = Array.from({length: 26}).map((v, i) => i);
     /**
      * @description 并查集查询
      * @param index
