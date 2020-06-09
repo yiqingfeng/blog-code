@@ -7,7 +7,7 @@
  */
 class UnionFind {
     // 并查集元素的代表元默认指向自身
-    private parent: number[] = Array.from({length: 26}).map((v, i) => i);
+    private parent: number[] = Array.from({ length: 26 }).map((v, i) => i);
     /**
      * @description 并查集查询
      * @param index
@@ -48,4 +48,35 @@ export function equationsPossible(equations: string[]): boolean {
         }
     }
     return true;
+}
+
+/**
+ * @description 46. 把数字翻译成字符串
+ * @param {number} num
+ * @return {number}
+ * https://leetcode-cn.com/problems/ba-shu-zi-fan-yi-cheng-zi-fu-chuan-lcof/
+ * 结题思路：动态规划
+ */
+export function translateNum(num: number): number {
+    const translateMaps: CountMap = {};
+    const translate = function (num: number | string): number {
+        num = Number(num);
+        if (num < 10) return 1;
+
+        if (translateMaps[num]) return translateMaps[num];
+
+        if (num < 100) {
+            translateMaps[num] = num > 25 ? 1 : 2;
+        } else {
+            let str = String(num);
+            let right: string = str.slice(2);
+            if (Number(str.slice(0, 2)) > 25) {
+                translateMaps[num] = translate(str.slice(1));
+            } else {
+                translateMaps[num] = translate(right) + translate(str.slice(1));
+            }
+        }
+        return translateMaps[num];
+    }
+    return translate(num);
 }
