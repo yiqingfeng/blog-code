@@ -7,7 +7,9 @@
  */
 class UnionFind {
     // 并查集元素的代表元默认指向自身
-    private parent: number[] = Array.from({ length: 26 }).map((v, i) => i);
+    private parent: number[] = Array.from({
+        length: 26
+    }).map((v, i) => i);
     /**
      * @description 并查集查询
      * @param index
@@ -68,6 +70,7 @@ export function translateNum(num: number): number {
         if (num < 100) {
             translateMaps[num] = num > 25 ? 1 : 2;
         } else {
+            // 自左向右
             let str = String(num);
             let right: string = str.slice(2);
             if (Number(str.slice(0, 2)) > 25) {
@@ -80,3 +83,36 @@ export function translateNum(num: number): number {
     }
     return translate(num);
 }
+
+/**
+ * @description 9. 回文数
+ * @param {number} x
+ * @return {boolean}
+ * https://leetcode-cn.com/problems/palindrome-number/
+ */
+export function isPalindrome(x: number): boolean {
+    /**
+     * 不满足回文数的边界
+     * 负数 + 大于0且个位为0的整数
+     */
+    if (x < 0 || (x > 0 && x % 10 === 0)) return false;
+
+    let revertedNum: number = 0;
+    while (x > revertedNum) {
+        revertedNum = revertedNum * 10 + x % 10;
+        x = Math.floor(x / 10);
+    }
+    return x === revertedNum || x === Math.floor(revertedNum / 10);
+};
+
+/**
+ * @description 126. 单词接龙 II
+ * @param {string} beginWord
+ * @param {string} endWord
+ * @param {string[]} wordList
+ * @return {string[][]}
+ * https://leetcode-cn.com/problems/word-ladder-ii/
+ */
+function findLadders(beginWord: string, endWord: string, wordList: string[]): string[][] {
+
+};
