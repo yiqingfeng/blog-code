@@ -281,3 +281,33 @@ export function climbStairs(n: number): number {
     }
     return climbing(n);
 }
+
+/**
+ * @description 6. Z 字形变换
+ * @param {string} s 待变换的字符串
+ * @param {number} numRows 变换行数
+ * @return {string} 变换后的字符串
+ * https://leetcode-cn.com/problems/zigzag-conversion/
+ * 解题思路：
+ */
+export function convert(s: string, numRows: number): string {
+    if (numRows < 2) return s;
+
+    let result: string = '';
+    const maps: typeMap<Array<string>> = {};
+    for (let i = 0; i < numRows; i++) {
+        maps[i] = [];
+    }
+    const groupLen = 2 * numRows - 2;
+    for (let i = 0; i < s.length; i++) {
+        let index = i % groupLen;
+        if (index >= numRows) {
+            index = groupLen - index;
+        }
+        maps[index].push(s[i]);
+    }
+    for (let i = 0; i < numRows; i++) {
+        result += maps[i].join();
+    }
+    return result;
+}
