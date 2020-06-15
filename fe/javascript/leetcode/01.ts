@@ -155,7 +155,7 @@ export function threeSum(nums: number[]): number[][] {
 
     for (let i = 0; i < maxLen; i++) {
         let left = i + 1;
-        let right = maxLen - 1;
+        let right = maxLen + 1;
         while (left < right) {
             // 数量偏小（左指针右移）
             if (list[i] + list[left] + list[right] < 0) {
@@ -169,10 +169,14 @@ export function threeSum(nums: number[]): number[][] {
             }
 
             // 左指针与下一数字不重复时，导出结果
-            if (left + 1 !== right && list[left + 1] !== list[left]) {
+            if (left + 1 === right || list[left + 1] !== list[left]) {
                 result.push([list[i], list[left], list[right]])
             }
             left++;
+        }
+        // 第一个数相同的略过不作处理，既节省时间，又避免重复
+        while(list[i+1] === list[i]) {
+            i++;
         }
     }
 

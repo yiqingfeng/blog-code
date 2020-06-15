@@ -32,11 +32,15 @@ describe('739. 每日温度', () => {
     });
 });
 
-// describe('15. 三数之和', () => {
-//     it('测试', () => {
-//         expect(threeSum([-1, 0, 1, 2, -1, -4])).toEqual([1, 1, 4, 2, 1, 1, 0, 0]);
-//     });
-// });
+describe('15. 三数之和', () => {
+    it('测试', () => {
+        expect(threeSum([-1, 0, 1, 2, -1, -4])).toEqual([
+            [-1, -1, 2],
+            [-1, 0, 1]
+        ]);
+    });
+});
+
 describe('14. 最长公共前缀', () => {
     it('测试', () => {
         expect(longestCommonPrefix(["flower", "flow", "flight"])).toBe('fl');
