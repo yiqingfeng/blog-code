@@ -146,7 +146,7 @@ export function dailyTemperatures(T: number[]): number[] {
  * @param nums {number[]} 整数数组
  * @return number[][] 满足条件不重复的三元组
  * https://leetcode-cn.com/problems/3sum/
- * 解题思路：双指针 => 左向右移动、右向左移动
+ * 解题思路：排序 + 双指针 => 左向右移动、右向左移动
  */
 export function threeSum(nums: number[]): number[][] {
     const result: number[][] = [];
@@ -175,7 +175,7 @@ export function threeSum(nums: number[]): number[][] {
             left++;
         }
         // 第一个数相同的略过不作处理，既节省时间，又避免重复
-        while(list[i+1] === list[i]) {
+        while (list[i + 1] === list[i]) {
             i++;
         }
     }
@@ -196,7 +196,7 @@ export function longestCommonPrefix(strs: string[]): string {
 
     function getMaxPrefixLength(max: number, str: string): number {
         let j = 0;
-        while(j < max && j < str.length) {
+        while (j < max && j < str.length) {
             if (str[j] !== ans[j]) {
                 break;
             }
@@ -206,7 +206,7 @@ export function longestCommonPrefix(strs: string[]): string {
     }
 
     let maxLen: number = ans.length;
-    for(let i = 1; i < strs.length; i++) {
+    for (let i = 1; i < strs.length; i++) {
         maxLen = getMaxPrefixLength(maxLen, strs[i]);
         if (maxLen === 0) break;
     }
@@ -261,3 +261,23 @@ export function longestCommonPrefix(strs: string[]): string {
 }
 */
 
+/**
+ * @description 70. 爬楼梯
+ * @param {number} n 楼梯的阶数
+ * @returns {number} 爬指定楼梯位置的方法
+ * https://leetcode-cn.com/problems/climbing-stairs/
+ * 解题思路：动态规划（分而治之，迭代），通项公式（数学方法递推，牛皮）
+ */
+export function climbStairs(n: number): number {
+    const maps: typeMap < number > = {
+        1: 1,
+        2: 2,
+    };
+
+    function climbing(num: number): number {
+        if (maps[num]) return maps[num];
+
+        return maps[num] = climbing(num - 1) + climbing(num - 2);
+    }
+    return climbing(n);
+}
