@@ -113,6 +113,69 @@ export function isPalindrome(x: number): boolean {
  * @return {string[][]}
  * https://leetcode-cn.com/problems/word-ladder-ii/
  */
-function findLadders(beginWord: string, endWord: string, wordList: string[]): string[][] {
+// function findLadders(beginWord: string, endWord: string, wordList: string[]): string[][] {
 
-};
+// };
+
+/**
+ * @description 739. 每日温度
+ * @param {number[]} T
+ * @return {number[]}
+ * https://leetcode-cn.com/problems/daily-temperatures/
+ * 解题思路：单调栈
+ */
+export function dailyTemperatures(T: number[]): number[] {
+    const result: number[] = [];
+    const len = T.length;
+    for (let i = 0; i < len; i++) {
+        const temperature = T[i];
+        let days = 0;
+        for(let j = i + 1; j < len; j++) {
+            if (T[j] > temperature) {
+                days = j - i;
+                break;
+            }
+        }
+        result.push(days);
+    }
+
+    return result;
+}
+
+/**
+ * 15. 三数之和
+ * @param nums {number[]} 整数数组
+ * @return number[][] 满足条件不重复的三元组
+ * https://leetcode-cn.com/problems/3sum/
+ * 解题思路：双指针 => 左向右移动、右向左移动
+ */
+export function threeSum(nums: number[]): number[][] {
+    const result: number[][] = [];
+    const list = nums.sort((a, b) => a - b); // 由小到大重排
+    const maxLen = list.length - 2;
+
+    for(let i = 0; i < maxLen; i++) {
+        let left = i + 1;
+        let right = maxLen - 1;
+        while(left < right) {
+            // 数量偏小（左指针右移）
+            if (list[i] + list[left] + list[right] < 0) {
+                left++;
+                continue;
+            }
+            // 数量过大
+            if (list[i] + list[left] + list[right] > 0) {
+                right--;
+                continue;
+            }
+
+            // 左指针与下一数字不重复时，导出结果
+            if (left + 1 !== right && list[left + 1] !== list[left]) {
+                result.push([list[i], list[left], list[right]])
+            }
+            left++;
+        }
+    }
+
+    return result;
+}

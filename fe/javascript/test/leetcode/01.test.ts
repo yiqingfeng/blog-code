@@ -1,6 +1,8 @@
 import {
     equationsPossible,
     translateNum,
+    dailyTemperatures,
+    threeSum,
 } from '../../leetcode/01';
 
 describe('990. 等式方程的可满足性', () => {
@@ -22,3 +24,15 @@ describe('990. 等式方程的可满足性', () => {
         expect(translateNum(419605557)).toBe(2);
     });
 });
+
+describe('739. 每日温度', () => {
+    it('测试', () => {
+        expect(dailyTemperatures([73, 74, 75, 71, 69, 72, 76, 73])).toEqual([1, 1, 4, 2, 1, 1, 0, 0]);
+    });
+});
+
+// describe('15. 三数之和', () => {
+//     it('测试', () => {
+//         expect(threeSum([-1, 0, 1, 2, -1, -4])).toEqual([1, 1, 4, 2, 1, 1, 0, 0]);
+//     });
+// });

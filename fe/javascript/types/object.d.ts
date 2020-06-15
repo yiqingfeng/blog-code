@@ -4,3 +4,8 @@
 declare interface CountMap {
     [propName: string]: number;
 };
+
+declare interface typeMap<T> {
+    [propName: string]: T;
+    [index: number]: T;
+}
