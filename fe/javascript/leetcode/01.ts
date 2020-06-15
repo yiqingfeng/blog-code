@@ -27,7 +27,6 @@ class UnionFind {
         this.parent[this.find(index1)] = this.find(index2);
     }
 }
-
 export function equationsPossible(equations: string[]): boolean {
     const uf = new UnionFind();
     // 该表达式是否相等
@@ -130,7 +129,7 @@ export function dailyTemperatures(T: number[]): number[] {
     for (let i = 0; i < len; i++) {
         const temperature = T[i];
         let days = 0;
-        for(let j = i + 1; j < len; j++) {
+        for (let j = i + 1; j < len; j++) {
             if (T[j] > temperature) {
                 days = j - i;
                 break;
@@ -154,10 +153,10 @@ export function threeSum(nums: number[]): number[][] {
     const list = nums.sort((a, b) => a - b); // 由小到大重排
     const maxLen = list.length - 2;
 
-    for(let i = 0; i < maxLen; i++) {
+    for (let i = 0; i < maxLen; i++) {
         let left = i + 1;
         let right = maxLen - 1;
-        while(left < right) {
+        while (left < right) {
             // 数量偏小（左指针右移）
             if (list[i] + list[left] + list[right] < 0) {
                 left++;
@@ -179,3 +178,82 @@ export function threeSum(nums: number[]): number[][] {
 
     return result;
 }
+
+/**
+ * @description 14. 最长公共前缀
+ * @param {Array<string>} strs 指定字符串数组
+ * @returns {string} 最长公共前缀
+ * https://leetcode-cn.com/problems/longest-common-prefix/
+ * 解题思路：水平扫描法（求公共前缀最大长度）
+ */
+export function longestCommonPrefix(strs: string[]): string {
+    const ans = strs[0];
+    if (strs.length < 2) return ans || '';
+
+    function getMaxPrefixLength(max: number, str: string): number {
+        let j = 0;
+        while(j < max && j < str.length) {
+            if (str[j] !== ans[j]) {
+                break;
+            }
+            j++;
+        }
+        return j;
+    }
+
+    let maxLen: number = ans.length;
+    for(let i = 1; i < strs.length; i++) {
+        maxLen = getMaxPrefixLength(maxLen, strs[i]);
+        if (maxLen === 0) break;
+    }
+    return ans.slice(0, maxLen);
+}
+
+// 处理处理为寻找最大公共子串了 =_=||
+/**
+export function longestCommonPrefix(strs: string[]): string {
+    if (strs.length === 0) return '';
+    if (strs.length === 1) return strs[0];
+
+    let minStr: string = strs[0];
+    strs.forEach(str => {
+        if (minStr.length > str.length) {
+            minStr = str;
+        }
+    });
+
+    // 判断当前字符串是否均存在字符串数组中
+    function isIncludedStr(str: string): boolean {
+        let isIncluded: boolean = true;
+        for (let i = 0; i < strs.length; i++) {
+            if (strs[i].indexOf(str) === -1) {
+                isIncluded = false;
+                break;
+            }
+        }
+        return isIncluded;
+    }
+
+    let result = '';
+    let i = 0;
+    let j = 0;
+    while (j <= minStr.length) {
+        let str: string;
+        str = minStr.substr(i, j)
+        if (isIncludedStr(str)) {
+            j++;
+            if (str.length > result.length) {
+                result = str;
+            }
+        } else {
+            i++;
+            if (i > j) {
+                j = i;
+            }
+        }
+    }
+
+    return result;
+}
+*/
+
