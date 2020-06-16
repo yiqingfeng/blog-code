@@ -42,7 +42,7 @@ export function serialize(root: treeNode = null): string {
             list[i] = children;
             setChildren(children, ++i);
         } else {
-            // 移除该无效层级 i - 1
+            // 移除全是 null 的无效层级 i - 1
             list.length = i - 1;
             return;
         }
@@ -87,28 +87,25 @@ export function deserialize(data: string): treeNode {
     const rootNode: treeNode  = createNode(nodeData.splice(0, 1));
     // 设置子节点树
     function setChildren(nodes: treeNode[], level: number = 1) {
-        if (nodes.length === 0 || nodeData.length === 0) return;
+        const nNodes: TreeNodeInterface[] = nodes.filter(node => node) as TreeNodeInterface[];
+        if (nNodes.length === 0 || nodeData.length === 0) return;
 
-        const nums: number = 2 ** level;
+        const nums:number = 2 * nNodes.length;
         const curtLevelNodeData = nodeData.splice(0, nums);
 
         let children: treeNode[] = [];
-        nodes.forEach((node, index) => {
+        nNodes.forEach((node, index) => {
             // 父节点不存在
-            if (node === null) {
-                children.push(null, null);
-                return;
-            }
-            const left: treeNode = createNode(curtLevelNodeData[index * 2]);
-            const right: treeNode = createNode(curtLevelNodeData[index * 2 + 1]);
+            // if (node === null) {
+            //     children.push(null, null);
+            //     return;
+            // }
+            const left: treeNode = createNode(curtLevelNodeData.shift());
+            const right: treeNode = createNode(curtLevelNodeData.shift());
             children.push(left, right);
             node.left = left;
             node.right = right;
         });
-        // 不存在更深层级
-        if (curtLevelNodeData.length < nums) {
-            children = [];
-        }
         setChildren(children, level + 1);
     }
     setChildren([rootNode]);
