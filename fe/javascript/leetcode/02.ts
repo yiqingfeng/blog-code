@@ -111,3 +111,34 @@ export function deserialize(data: string): treeNode {
     setChildren([rootNode]);
     return rootNode;
 }
+
+/**
+ * @description 1014. 最佳观光组合
+ * @param {Array} A 正整数数组
+ * @return {number} 最高分
+ * https://leetcode-cn.com/problems/best-sightseeing-pair/submissions/
+ * 解题思路：枚举 => 优化点：拆分（A[i] + i） + (A[j] - j) j 固定是，只求前一部分最大值即可
+ */
+export function maxScoreSightseeingPair(A: number[]): number {
+    // 未优化前
+    /*
+    let distance: number = 0;
+    for (let i = 0; i < A.length; i++) {
+        for (let j = i + 1; j < A.length; j++) {
+            let scores: number = A[i] + A[j] + i - j;
+            if (scores > distance) {
+                distance = scores;
+            }
+        }
+    }
+    return distance;
+    */
+    // 优化后
+    let ans: number = 0;
+    let maxI: number = A[0];
+    for(let j = 1; j < A.length; j++) {
+        ans = Math.max(ans, maxI + A[j] - j);
+        maxI = Math.max(maxI, A[j] + j);
+    }
+    return ans;
+}
